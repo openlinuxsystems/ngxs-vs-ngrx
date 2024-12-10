@@ -1,0 +1,37 @@
+<div class="my-3">
+  <p-button label="Add" (click)="showDialog()"></p-button>
+  <p-button class="ml-2" label="Clear" severity="secondary" (click)="clearTodos()"></p-button>
+  <span *ngIf="loading$ | async" class="text-2xl ml-2">Loading...</span>
+</div>
+
+<div *ngIf="todos$" class="grid">
+  <ng-container *ngFor="let todo of todos$ | async">
+    <div class="col-3">
+      <div class="surface-card p-4 shadow-2 border-round">
+        <div class="mb-3 flex align-items-center justify-content-between">
+          <div class="flex align-items-center">
+            <span class="text-xl font-medium text-900">{{todo.title}}</span>
+          </div>
+        </div>
+        <div style="height: 150px" class="surface-border">
+          {{todo.summary}}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<p-dialog header="Add Todo" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="title" class="font-semibold w-6rem">Title</label>
+    <input pInputText id="title" class="flex-auto" autocomplete="off" [(ngModel)]="title" />
+  </div>
+  <div class="flex align-items-center gap-3 mb-5">
+    <label for="summary" class="font-semibold w-6rem">Summary</label>
+    <input pInputText id="summary" class="flex-auto" autocomplete="off" [(ngModel)]="summary" />
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
+    <p-button label="Save" (onClick)="addTodo()" />
+  </div>
+</p-dialog>
